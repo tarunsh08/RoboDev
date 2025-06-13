@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Register = () => {
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Email:', email, 'Password:', password);
+    if (password !== confirmPassword) {
+      alert("Passwords don't match!");
+      return;
+    }
+    // Handle registration logic here
+    console.log('Name:', name, 'Email:', email, 'Password:', password);
+    navigate('/login');
   };
 
   return (
@@ -29,8 +37,25 @@ const Login = () => {
         textAlign: 'center',
         width: '350px'
       }}>
-        <h2 style={{ marginBottom: '20px' }}>Login</h2>
+        <h2 style={{ marginBottom: '20px' }}>Create Account</h2>
         <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '10px',
+              marginBottom: '15px',
+              borderRadius: '5px',
+              border: '1px solid #333',
+              backgroundColor: '#2c2c2c',
+              color: 'white',
+              boxSizing: 'border-box'
+            }}
+          />
           <input
             type="email"
             placeholder="Email"
@@ -57,6 +82,23 @@ const Login = () => {
             style={{
               width: '100%',
               padding: '10px',
+              marginBottom: '15px',
+              borderRadius: '5px',
+              border: '1px solid #333',
+              backgroundColor: '#2c2c2c',
+              color: 'white',
+              boxSizing: 'border-box'
+            }}
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+            style={{
+              width: '100%',
+              padding: '10px',
               marginBottom: '20px',
               borderRadius: '5px',
               border: '1px solid #333',
@@ -79,15 +121,15 @@ const Login = () => {
           onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}
           onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#007bff'}
           >
-            Login
+            Register
           </button>
         </form>
         <p style={{ marginTop: '20px', fontSize: '14px' }}>
-          Don't have an account? <Link to="/register" style={{ color: '#007bff', textDecoration: 'none' }}>Sign up</Link>
+          Already have an account? <Link to="/login" style={{ color: '#007bff', textDecoration: 'none' }}>Sign in</Link>
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Register;
