@@ -79,16 +79,17 @@ const Project = () => {
 
   }
 
-  // const send = () => {
+  const send = () => {
 
-  //   sendMessage('project-message', {
-  //     message,
-  //     sender: user
-  //   })
-  //   setMessages(prevMessages => [...prevMessages, { sender: user, message }]) // Update messages state
-  //   setMessage("")
+    sendMessage('project-message', {
+      message,
+      sender: user
+    })
+    appendOutgoingMessage(message)
+    setMessages(prevMessages => [...prevMessages, { sender: user, message }]) // Update messages state
+    setMessage("")
 
-  // }
+  }
 
   // function WriteAiMessage(message) {
 
@@ -113,17 +114,18 @@ const Project = () => {
 
     initializeSocket(project._id)
 
-    if (!webContainer) {
-      getWebContainer().then(container => {
-        setWebContainer(container)
-        console.log("container started")
-      })
-    }
+    // if (!webContainer) {
+    //   getWebContainer().then(container => {
+    //     setWebContainer(container)
+    //     console.log("container started")
+    //   })
+    // }
 
 
     receiveMessage('project-message', data => {
 
       console.log(data)
+      // appendIncomingMessage(data)
 
       if (data.sender._id == 'ai') {
 
@@ -179,10 +181,31 @@ const Project = () => {
 
 
   // Removed appendIncomingMessage and appendOutgoingMessage functions
+  // function appendIncomingMessage(messageObject){
+  //   const messageBox = document.querySelector('.message-box')
+  //   const message = document.createElement('div')
+    
+  //   message.classList.add('message', 'max-w-56', 'flex', 'flex-col', 'p-2', 'bg-slate-900')
+  //   message.innerHTML= `<small class=opacity-65 text-xs> ${messageObject.sender.email}</small> <p class='text-sm'> ${messageObject.message}</p>`
 
-  // function scrollToBottom() {
-  //   messageBox.current.scrollTop = messageBox.current.scrollHeight
+  //   messageBox.appendChild(message)
+  //   scrollToBottom()
   // }
+
+  // function appendOutgoingMessage(messageObject){
+  //   const messageBox = document.querySelector('.message-box')
+  //   const newMessage = document.createElement('div')
+    
+  //   newMessage.classList.add('message','ml-auto', 'max-w-56', 'flex', 'flex-col', 'p-2', 'bg-slate-900')
+  //   newMessage.innerHTML= `<small class=opacity-65 text-xs> ${messageObject.sender.email}</small> <p class='text-sm'> ${messageObject.message}</p>`
+
+  //   messageBox.appendChild(newMessage)
+  //   scrollToBottom()
+  // }
+
+  function scrollToBottom() {
+    messageBox.current.scrollTop = messageBox.current.scrollHeight
+  }
 
   return (
     <main className='flex w-screen h-screen'>
@@ -198,20 +221,20 @@ const Project = () => {
         </header>
         <div className="relative flex flex-col flex-grow h-full pb-10 conversation-area pt-14">
 
-          {/* <div
+          <div
             ref={messageBox}
             className="flex flex-col flex-grow max-h-full gap-1 p-1 overflow-auto message-box scrollbar-hide">
             {messages.map((msg, index) => (
               <div key={index} className={`${msg.sender._id === 'ai' ? 'max-w-80' : 'max-w-52'} ${msg.sender._id == user._id.toString() && 'ml-auto'}  message flex flex-col p-2 bg-slate-50 w-fit rounded-md`}>
                 <small className='text-xs opacity-65'>{msg.sender.email}</small>
                 <div className='text-sm'>
-                  {msg.sender._id === 'ai' ?
+                  {/* {msg.sender._id === 'ai' ?
                     WriteAiMessage(msg.message)
-                    : <p>{msg.message}</p>}
+                    : <p>{msg.message}</p>} */}
                 </div>
               </div>
             ))}
-          </div> */}
+          </div>
 
           <div className="absolute bottom-0 flex w-full inputField">
             <input
@@ -219,7 +242,7 @@ const Project = () => {
               onChange={(e) => setMessage(e.target.value)}
               className='flex-grow p-2 px-4 border-none outline-none' type="text" placeholder='Enter message' />
             <button
-              // onClick={send}
+              onClick={send}
               className='px-5 text-white bg-slate-950'><i className="ri-send-plane-fill"></i></button>
           </div>
         </div>
