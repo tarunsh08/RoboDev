@@ -3,25 +3,25 @@ import { UserContext } from '../context/user.context'
 import { useLocation } from 'react-router-dom'
 import axios from '../config/axios'
 import { initializeSocket, receiveMessage, sendMessage } from '../config/socket'
-// import Markdown from 'markdown-to-jsx'
+import Markdown from 'markdown-to-jsx'
 // import hljs from 'highlight.js';
 // import { getWebContainer } from '../config/webcontainer'
 
 
-// function SyntaxHighlightedCode(props) {
-//   const ref = useRef(null)
+function SyntaxHighlightedCode(props) {
+  const ref = useRef(null)
 
-//   React.useEffect(() => {
-//     if (ref.current && props.className?.includes('lang-') && window.hljs) {
-//       window.hljs.highlightElement(ref.current)
+  React.useEffect(() => {
+    if (ref.current && props.className?.includes('lang-') && window.hljs) {
+      window.hljs.highlightElement(ref.current)
 
-//       // hljs won't reprocess the element unless this attribute is removed
-//       ref.current.removeAttribute('data-highlighted')
-//     }
-//   }, [props.className, props.children])
+      // hljs won't reprocess the element unless this attribute is removed
+      ref.current.removeAttribute('data-highlighted')
+    }
+  }, [props.className, props.children])
 
-//   return <code {...props} ref={ref} />
-// }
+  return <code {...props} ref={ref} />
+}
 
 
 const Project = () => {
@@ -30,7 +30,7 @@ const Project = () => {
 
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedUserId, setSelectedUserId] = useState(new Set()) // Initialized as Set
+  const [selectedUserId, setSelectedUserId] = useState(new Set()) 
   const [project, setProject] = useState(location.state.project)
   const [message, setMessage] = useState('')
   const { user } = useContext(UserContext)
@@ -63,7 +63,6 @@ const Project = () => {
 
   }
 
-
   function addCollaborators() {
 
     axios.put("/projects/add-user", {
@@ -76,7 +75,6 @@ const Project = () => {
     }).catch(err => {
       console.log(err)
     })
-
   }
 
   const send = () => {
@@ -86,29 +84,29 @@ const Project = () => {
       sender: user
     })
     appendOutgoingMessage(message)
-    setMessages(prevMessages => [...prevMessages, { sender: user, message }]) // Update messages state
+    setMessages(prevMessages => [...prevMessages, { sender: user, message }]) 
     setMessage("")
 
   }
 
-  // function WriteAiMessage(message) {
+  function WriteAiMessage(message) {
 
-  //   const messageObject = JSON.parse(message)
+    const messageObject = JSON.parse(message)
 
-  //   return (
-  //     <div
-  //       className='p-2 overflow-auto text-white rounded-sm bg-slate-950'
-  //     >
-  //       <Markdown
-  //         children={messageObject.text}
-  //         options={{
-  //           overrides: {
-  //             code: SyntaxHighlightedCode,
-  //           },
-  //         }}
-  //       />
-  //     </div>)
-  // }
+    return (
+      <div
+        className='p-2 overflow-auto text-white rounded-sm bg-slate-950'
+      >
+        <Markdown
+          children={messageObject.text}
+          options={{
+            overrides: {
+              code: SyntaxHighlightedCode,
+            },
+          }}
+        />
+      </div>)
+  }
 
   useEffect(() => {
 
@@ -128,21 +126,16 @@ const Project = () => {
       // appendIncomingMessage(data)
 
       if (data.sender._id == 'ai') {
-
-
         const message = JSON.parse(data.message)
-
         console.log(message)
-
         webContainer?.mount(message.fileTree)
-
+        
         if (message.fileTree) {
           setFileTree(message.fileTree || {})
         }
+        
         setMessages(prevMessages => [...prevMessages, data]) // Update messages state
       } else {
-
-
         setMessages(prevMessages => [...prevMessages, data]) // Update messages state
       }
     })
@@ -168,16 +161,16 @@ const Project = () => {
 
   }, [])
 
-  // function saveFileTree(ft) {
-  //   axios.put('/projects/update-file-tree', {
-  //     projectId: project._id,
-  //     fileTree: ft
-  //   }).then(res => {
-  //     console.log(res.data)
-  //   }).catch(err => {
-  //     console.log(err)
-  //   })
-  // }
+  function saveFileTree(ft) {
+    axios.put('/projects/update-file-tree', {
+      projectId: project._id,
+      fileTree: ft
+    }).then(res => {
+      console.log(res.data)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
 
 
   // Removed appendIncomingMessage and appendOutgoingMessage functions
@@ -186,7 +179,15 @@ const Project = () => {
   //   const message = document.createElement('div')
     
   //   message.classList.add('message', 'max-w-56', 'flex', 'flex-col', 'p-2', 'bg-slate-900')
-  //   message.innerHTML= `<small class=opacity-65 text-xs> ${messageObject.sender.email}</small> <p class='text-sm'> ${messageObject.message}</p>`
+    
+  //   if(messageObject.sender._id === 'ai'){
+  //     const markDown = (<Markdown>{messageObject.message}</Markdown>)
+  //     message.innerHTML = `<small class='opacity-65 text-xs>${messageObject.sender.email}</small> 
+  //     <p class='text-sm>${markDown}</p>`
+  //   }else{
+      
+  //     message.innerHTML= `<small class=opacity-65 text-xs> ${messageObject.sender.email}</small> <p class='text-sm'> ${messageObject.message}</p>`
+  //   }
 
   //   messageBox.appendChild(message)
   //   scrollToBottom()
@@ -228,9 +229,9 @@ const Project = () => {
               <div key={index} className={`${msg.sender._id === 'ai' ? 'max-w-80' : 'max-w-52'} ${msg.sender._id == user._id.toString() && 'ml-auto'}  message flex flex-col p-2 bg-slate-50 w-fit rounded-md`}>
                 <small className='text-xs opacity-65'>{msg.sender.email}</small>
                 <div className='text-sm'>
-                  {/* {msg.sender._id === 'ai' ?
+                  {msg.sender._id === 'ai' ?
                     WriteAiMessage(msg.message)
-                    : <p>{msg.message}</p>} */}
+                    : <p>{msg.message}</p>}
                 </div>
               </div>
             ))}
@@ -261,7 +262,6 @@ const Project = () => {
 
             {project.users && project.users.map(user => {
 
-
               return (
                 <div className="flex items-center gap-2 p-2 cursor-pointer user hover:bg-slate-200">
                   <div className='flex items-center justify-center p-5 text-white rounded-full aspect-square w-fit h-fit bg-slate-600'>
@@ -270,8 +270,6 @@ const Project = () => {
                   <h1 className='text-lg font-semibold'>{user.email}</h1>
                 </div>
               )
-
-
             })}
           </div>
         </div>
@@ -299,11 +297,9 @@ const Project = () => {
           </div>
 
         </div>
-
-
         <div className="flex flex-col flex-grow h-full code-editor shrink">
 
-          {/* <div className="flex justify-between w-full top">
+          <div className="flex justify-between w-full top">
 
             <div className="flex files">
               {
@@ -327,8 +323,6 @@ const Project = () => {
 
 
                   const installProcess = await webContainer.spawn("npm", ["install"])
-
-
 
                   installProcess.output.pipeTo(new WritableStream({
                     write(chunk) {
@@ -361,11 +355,10 @@ const Project = () => {
                 run
               </button>
 
-
             </div>
-          </div> */}
+          </div>
           <div className="flex flex-grow max-w-full overflow-auto bottom shrink">
-            {/* {
+            {
               fileTree[currentFile] && (
                 <div className="flex-grow h-full overflow-auto code-editor-area bg-slate-50">
                   <pre
@@ -397,7 +390,7 @@ const Project = () => {
                   </pre>
                 </div>
               )
-            } */}
+            }
           </div>
 
         </div>
