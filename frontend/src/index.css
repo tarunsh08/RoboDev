@@ -17,3 +17,7 @@ html, body {
 .message-box{
   scroll-behaviour: smooth;
 }
+
+.message-box::-webkit-scrollbar{
+  display: none;
+}
