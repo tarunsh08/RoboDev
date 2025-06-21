@@ -144,7 +144,7 @@ const Home = () => {
                                     <i className='text-white ri-code-s-slash-fill'></i>
                                 </div>
                                 <span className='text-xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text'>
-                                    CodeCollab
+                                    RoboDev
                                 </span>
                             </div>
                             <div className='items-center hidden gap-6 md:flex'>
@@ -195,7 +195,7 @@ const Home = () => {
                         </h1>
                         <p className='max-w-3xl mx-auto mb-12 text-xl text-gray-400'>
                             The ultimate collaborative coding platform. Write, debug, and deploy with your team in real-time.
-                            No setup required, just pure coding bliss.
+                            No setup required, just pure coding bliss. Nothing Manual here, tag @ai for the magic.
                         </p>
                         <div className='flex flex-col items-center justify-center gap-4 sm:flex-row'>
                             <button
@@ -364,24 +364,24 @@ const Home = () => {
                             <i className='text-white ri-code-s-slash-fill'></i>
                         </div>
                         <span className='text-xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text'>
-                            CodeCollab
+                            RoboDev
                         </span>
                     </div>
                     <p className='mb-6 text-gray-400'>
                         Empowering developers to build amazing things together.
                     </p>
+                    <p className='mb-6 text-gray-400'>
+                        Tarun.exe ran this with love.
+                    </p>
                     <div className='flex justify-center gap-6'>
-                        <a href='#' className='text-gray-400 transition-colors hover:text-white'>
+                        <a href='https://www.github.com/tarunsh08' className='text-gray-400 transition-colors hover:text-white'>
                             <i className='text-xl ri-github-fill'></i>
                         </a>
-                        <a href='#' className='text-gray-400 transition-colors hover:text-white'>
+                        <a href='https://x.com/TarunSharm202?s=09' className='text-gray-400 transition-colors hover:text-white'>
                             <i className='text-xl ri-twitter-fill'></i>
                         </a>
-                        <a href='#' className='text-gray-400 transition-colors hover:text-white'>
+                        <a href='https://www.linkedin.com/in/tarun-sharma-a0a5552b4' className='text-gray-400 transition-colors hover:text-white'>
                             <i className='text-xl ri-linkedin-fill'></i>
-                        </a>
-                        <a href='#' className='text-gray-400 transition-colors hover:text-white'>
-                            <i className='text-xl ri-discord-fill'></i>
                         </a>
                     </div>
                 </div>
