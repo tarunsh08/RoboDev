@@ -298,7 +298,7 @@ const Project = () => {
                 onClick={async () => {
                   await webContainer?.mount(fileTree)
 
-                  const installProcess = await webContainer.spawn("npm", ["install"])
+                  const installProcess = await webContainer?.spawn("npm", ["install"])
 
                   installProcess.output.pipeTo(new WritableStream({
                     write(chunk) {
@@ -310,7 +310,7 @@ const Project = () => {
                     runProcess.kill()
                   }
 
-                  let tempRunProcess = await webContainer.spawn("npm", ["start"]);
+                  let tempRunProcess = await webContainer?.spawn("npm", ["start"]);
 
                   tempRunProcess.output.pipeTo(new WritableStream({
                     write(chunk) {
