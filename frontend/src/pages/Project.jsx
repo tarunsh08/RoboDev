@@ -296,7 +296,7 @@ const Project = () => {
             <div className="flex gap-2 actions">
               <button
                 onClick={async () => {
-                  await webContainer.mount(fileTree)
+                  await webContainer?.mount(fileTree)
 
                   const installProcess = await webContainer.spawn("npm", ["install"])
 
