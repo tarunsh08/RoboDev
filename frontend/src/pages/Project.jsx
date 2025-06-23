@@ -320,7 +320,7 @@ const Project = () => {
 
                   setRunProcess(tempRunProcess)
 
-                  webContainer.on('server-ready', (port, url) => {
+                  webContainer?.on('server-ready', (port, url) => {
                     console.log(port, url)
                     setIframeUrl(url)
                   })
