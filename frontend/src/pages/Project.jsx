@@ -30,7 +30,7 @@ const Project = () => {
 
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [selectedUserId, setSelectedUserId] = useState(new Set()) 
+  const [selectedUserId, setSelectedUserId] = useState(new Set())
   const [project, setProject] = useState(location.state.project)
   const [message, setMessage] = useState('')
   const { user } = useContext(UserContext)
@@ -84,7 +84,7 @@ const Project = () => {
       sender: user
     })
     // appendOutgoingMessage(message)
-    setMessages(prevMessages => [...prevMessages, { sender: user, message }]) 
+    setMessages(prevMessages => [...prevMessages, { sender: user, message }])
     setMessage("")
 
   }
@@ -129,14 +129,14 @@ const Project = () => {
         const message = JSON.parse(data.message)
         console.log(message)
         webContainer?.mount(message.fileTree)
-        
+
         if (message.fileTree) {
           setFileTree(message.fileTree || {})
         }
-        
-        setMessages(prevMessages => [...prevMessages, data]) 
+
+        setMessages(prevMessages => [...prevMessages, data])
       } else {
-        setMessages(prevMessages => [...prevMessages, data]) 
+        setMessages(prevMessages => [...prevMessages, data])
       }
     })
 
@@ -180,21 +180,21 @@ const Project = () => {
     <main className='flex w-screen h-screen text-gray-100 bg-slate-900'>
       <section className="relative flex flex-col h-screen border-r left min-w-96 bg-gradient-to-b from-slate-800 to-slate-900 border-slate-700">
         <header className='absolute top-0 z-10 flex items-center justify-between w-full p-4 px-6 border-b shadow-lg bg-slate-800/95 backdrop-blur-sm border-slate-700'>
-          <button 
-            className='flex items-center gap-3 px-4 py-2 text-sm font-medium text-white transition-all duration-200 transform rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl hover:scale-105' 
+          <button
+            className='flex items-center gap-3 px-4 py-2 text-sm font-medium text-white transition-all duration-200 transform rounded-lg shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 hover:shadow-xl hover:scale-105'
             onClick={() => setIsModalOpen(true)}
           >
             <i className="text-lg ri-add-fill"></i>
             <p>Add Collaborator</p>
           </button>
-          <button 
-            onClick={() => setIsSidePanelOpen(!isSidePanelOpen)} 
+          <button
+            onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
             className='p-3 text-gray-300 transition-all duration-200 rounded-lg hover:text-white hover:bg-slate-700'
           >
             <i className="text-xl ri-group-fill"></i>
           </button>
         </header>
-        
+
         <div className="relative flex flex-col flex-grow h-full pt-20 pb-4 conversation-area">
           <div
             ref={messageBox}
@@ -216,9 +216,9 @@ const Project = () => {
               <input
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                className='flex-grow p-4 px-6 text-gray-200 placeholder-gray-400 bg-transparent border-none outline-none' 
-                type="text" 
-                placeholder='Type your message...' 
+                className='flex-grow p-4 px-6 text-gray-200 placeholder-gray-400 bg-transparent border-none outline-none'
+                type="text"
+                placeholder='Type your message...'
               />
               <button
                 onClick={send}
@@ -228,20 +228,20 @@ const Project = () => {
             </div>
           </div>
         </div>
-        
+
         <div className={`sidePanel w-full h-full flex flex-col bg-slate-800/95 backdrop-blur-sm absolute transition-all duration-300 ease-in-out ${isSidePanelOpen ? 'translate-x-0' : '-translate-x-full'} top-0 border-r border-slate-700 shadow-2xl`}>
           <header className='flex items-center justify-between p-6 border-b bg-slate-900/90 border-slate-700'>
             <h1 className='text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400'>
               Collaborators
             </h1>
-            <button 
-              onClick={() => setIsSidePanelOpen(!isSidePanelOpen)} 
+            <button
+              onClick={() => setIsSidePanelOpen(!isSidePanelOpen)}
               className='p-3 text-gray-300 transition-all duration-200 rounded-lg hover:text-white hover:bg-slate-700'
             >
               <i className="text-xl ri-close-fill"></i>
             </button>
           </header>
-          
+
           <div className="flex flex-col gap-3 p-4 users">
             {project.users && project.users.map((user, index) => {
               return (
@@ -276,7 +276,7 @@ const Project = () => {
             }
           </div>
         </div>
-        
+
         <div className="flex flex-col flex-grow h-full code-editor shrink bg-slate-900">
           <div className="flex justify-between w-full p-3 border-b bg-slate-800 border-slate-700 top">
             <div className="flex gap-1 files">
@@ -296,35 +296,40 @@ const Project = () => {
             <div className="flex gap-2 actions">
               <button
                 onClick={async () => {
-                  await webContainer?.mount(fileTree)
+                  if (!webContainer) return; // Early return if webContainer is null
 
-                  const installProcess = await webContainer?.spawn("npm", ["install"])
+                  try {
+                    await webContainer.mount(fileTree);
 
-                  installProcess?.output.pipeTo(new WritableStream({
-                    write(chunk) {
-                      console.log(chunk)
+                    const installProcess = await webContainer.spawn("npm", ["install"]);
+                    installProcess.output.pipeTo(new WritableStream({
+                      write(chunk) {
+                        console.log(chunk)
+                      }
+                    }));
+
+                    if (runProcess) {
+                      runProcess.kill();
                     }
-                  }))
 
-                  if (runProcess) {
-                    runProcess.kill()
+                    let tempRunProcess = await webContainer.spawn("npm", ["start"]);
+                    tempRunProcess.output.pipeTo(new WritableStream({
+                      write(chunk) {
+                        console.log(chunk)
+                      }
+                    }));
+
+                    setRunProcess(tempRunProcess);
+
+                    // Add null check before adding event listener
+                    webContainer.on('server-ready', (port, url) => {
+                      console.log(port, url);
+                      setIframeUrl(url);
+                    });
+
+                  } catch (error) {
+                    console.error("Error running code:", error);
                   }
-
-                  let tempRunProcess = await webContainer?.spawn("npm", ["start"]);
-
-                  tempRunProcess?.output.pipeTo(new WritableStream({
-                    write(chunk) {
-                      console.log(chunk)
-                    }
-                  }))
-
-                  setRunProcess(tempRunProcess)
-
-                  webContainer?.on('server-ready', (port, url) => {
-                    console.log(port, url)
-                    setIframeUrl(url)
-                  })
-
                 }}
                 className='flex items-center gap-2 p-3 px-5 font-medium text-white transition-all duration-200 transform rounded-lg shadow-lg bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 hover:shadow-xl hover:scale-105'
               >
@@ -333,7 +338,7 @@ const Project = () => {
               </button>
             </div>
           </div>
-          
+
           <div className="flex flex-grow max-w-full overflow-auto bottom shrink">
             {
               fileTree[currentFile] && (
@@ -376,11 +381,11 @@ const Project = () => {
         {iframeUrl && webContainer &&
           (<div className="flex flex-col h-full border-l min-w-96 border-slate-700">
             <div className="p-3 border-b address-bar bg-slate-800 border-slate-700">
-              <input 
+              <input
                 type="text"
                 onChange={(e) => setIframeUrl(e.target.value)}
-                value={iframeUrl} 
-                className="w-full p-3 px-4 text-gray-200 transition-all duration-200 border rounded-lg outline-none bg-slate-700 border-slate-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20" 
+                value={iframeUrl}
+                className="w-full p-3 px-4 text-gray-200 transition-all duration-200 border rounded-lg outline-none bg-slate-700 border-slate-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
                 placeholder="Enter URL..."
               />
             </div>
@@ -396,19 +401,19 @@ const Project = () => {
               <h2 className='text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400'>
                 Add Collaborators
               </h2>
-              <button 
-                onClick={() => setIsModalOpen(false)} 
+              <button
+                onClick={() => setIsModalOpen(false)}
                 className='p-2 text-gray-400 transition-all duration-200 rounded-lg hover:text-white hover:bg-slate-700'
               >
                 <i className="text-xl ri-close-fill"></i>
               </button>
             </header>
-            
+
             <div className="flex flex-col gap-3 pr-2 mb-20 overflow-auto users-list max-h-96">
               {users.map(user => (
-                <div 
-                  key={user.id} 
-                  className={`user cursor-pointer hover:bg-slate-700 ${Array.from(selectedUserId).indexOf(user._id) != -1 ? 'bg-slate-700 border-blue-500' : "border-transparent"} p-4 flex gap-4 items-center rounded-xl transition-all duration-200 border`} 
+                <div
+                  key={user.id}
+                  className={`user cursor-pointer hover:bg-slate-700 ${Array.from(selectedUserId).indexOf(user._id) != -1 ? 'bg-slate-700 border-blue-500' : "border-transparent"} p-4 flex gap-4 items-center rounded-xl transition-all duration-200 border`}
                   onClick={() => handleUserClick(user._id)}
                 >
                   <div className='relative flex items-center justify-center w-12 h-12 text-white rounded-full shadow-lg bg-gradient-to-br from-blue-500 to-purple-600'>
@@ -421,7 +426,7 @@ const Project = () => {
                 </div>
               ))}
             </div>
-            
+
             <button
               onClick={addCollaborators}
               className='absolute px-6 py-3 font-semibold text-white transition-all duration-200 transform -translate-x-1/2 shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl bottom-6 left-1/2 hover:shadow-xl hover:scale-105'>
