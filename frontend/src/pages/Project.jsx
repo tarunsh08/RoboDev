@@ -300,7 +300,7 @@ const Project = () => {
 
                   const installProcess = await webContainer?.spawn("npm", ["install"])
 
-                  installProcess.output.pipeTo(new WritableStream({
+                  installProcess?.output.pipeTo(new WritableStream({
                     write(chunk) {
                       console.log(chunk)
                     }
@@ -312,7 +312,7 @@ const Project = () => {
 
                   let tempRunProcess = await webContainer?.spawn("npm", ["start"]);
 
-                  tempRunProcess.output.pipeTo(new WritableStream({
+                  tempRunProcess?.output.pipeTo(new WritableStream({
                     write(chunk) {
                       console.log(chunk)
                     }
