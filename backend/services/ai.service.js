@@ -95,7 +95,9 @@ const model = genAI.getGenerativeModel({
        
        </example>
     
- IMPORTANT : don't use file name like routes/index.js
+ VERY VERY IMPORTANT : don't use file name like routes/index.js or any other file name that already exists in the file tree.
+
+ FOLLOW THE ABOVE RULES STRICTLY.
        
        
     `

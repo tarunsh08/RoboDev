@@ -133,9 +133,9 @@ const Home = () => {
     ]
 
     return (
-        <div className='min-h-screen text-white bg-slate-900'>
+        <div className='min-h-screen text-white bg-neutral-900'>
             {/* Navigation */}
-            <nav className='fixed top-0 z-50 w-full border-b bg-slate-900/95 backdrop-blur-sm border-slate-800'>
+            <nav className='fixed top-0 z-50 w-full border-b bg-neutral-900/95 backdrop-blur-sm border-neutral-800'>
                 <div className='px-4 mx-auto max-w-7xl sm:px-6 lg:px-8'>
                     <div className='flex items-center justify-between h-16'>
                         <div className='flex items-center gap-8'>
@@ -150,25 +150,25 @@ const Home = () => {
                             <div className='items-center hidden gap-6 md:flex'>
                                 <button 
                                     onClick={() => setActiveTab('projects')}
-                                    className={`px-3 py-2 rounded-lg transition-colors ${activeTab === 'projects' ? 'text-blue-400 bg-slate-800' : 'text-gray-300 hover:text-white'}`}
+                                    className={`px-3 py-2 rounded-lg transition-colors ${activeTab === 'projects' ? 'text-blue-400 bg-neutral-800' : 'text-gray-300 hover:text-white'}`}
                                 >
                                     Projects
                                 </button>
                                 <button 
                                     onClick={() => setActiveTab('features')}
-                                    className={`px-3 py-2 rounded-lg transition-colors ${activeTab === 'features' ? 'text-blue-400 bg-slate-800' : 'text-gray-300 hover:text-white'}`}
+                                    className={`px-3 py-2 rounded-lg transition-colors ${activeTab === 'features' ? 'text-blue-400 bg-neutral-800' : 'text-gray-300 hover:text-white'}`}
                                 >
                                     Features
                                 </button>
                                 <button 
                                     onClick={() => setActiveTab('how-to')}
-                                    className={`px-3 py-2 rounded-lg transition-colors ${activeTab === 'how-to' ? 'text-blue-400 bg-slate-800' : 'text-gray-300 hover:text-white'}`}
+                                    className={`px-3 py-2 rounded-lg transition-colors ${activeTab === 'how-to' ? 'text-blue-400 bg-neutral-800' : 'text-gray-300 hover:text-white'}`}
                                 >
                                     How to Use
                                 </button>
                                 <button 
                                     onClick={() => setActiveTab('faq')}
-                                    className={`px-3 py-2 rounded-lg transition-colors ${activeTab === 'faq' ? 'text-blue-400 bg-slate-800' : 'text-gray-300 hover:text-white'}`}
+                                    className={`px-3 py-2 rounded-lg transition-colors ${activeTab === 'faq' ? 'text-blue-400 bg-neutral-800' : 'text-gray-300 hover:text-white'}`}
                                 >
                                     FAQ
                                 </button>
@@ -176,7 +176,7 @@ const Home = () => {
                         </div>
                         <div className='flex items-center gap-4'>
                             <span className='text-sm text-gray-400'>Welcome, {user?.email}</span>
-                            <div className='flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-blue-500 to-purple-600'>
+                            <div className='flex items-center justify-center w-8 h-8 rounded-full bg-black'>
                                 <i className='text-sm text-white ri-user-fill'></i>
                             </div>
                         </div>
@@ -188,7 +188,7 @@ const Home = () => {
             {activeTab === 'projects' && (
                 <section className='px-4 pt-32 pb-20'>
                     <div className='mx-auto text-center max-w-7xl'>
-                        <h1 className='mb-6 text-6xl font-bold text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text'>
+                        <h1 className='mb-6 text-6xl font-bold text-transparent bg-gradient-to-r from-neutral-200 via-white to-neutral-500 bg-clip-text'>
                             Code Together,
                             <br />
                             Build Amazing Things
@@ -200,12 +200,12 @@ const Home = () => {
                         <div className='flex flex-col items-center justify-center gap-4 sm:flex-row'>
                             <button
                                 onClick={() => setIsModalOpen(true)}
-                                className='px-8 py-4 text-lg font-semibold transition-all duration-300 transform shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl hover:from-blue-700 hover:to-purple-700 hover:scale-105 hover:shadow-xl'
+                                className='px-8 py-4 text-lg font-semibold transition-all duration-300 transform shadow-lg bg-gradient-to-r text-black from-neutral-300 via-white to-neutral-400 rounded-xl hover:from-white hover:via-white hover:to-neutral-500 hover:scale-105 hover:shadow-xl'
                             >
                                 <i className='mr-2 ri-add-fill'></i>
                                 Create Your First Project
                             </button>
-                            <button className='px-8 py-4 text-lg font-semibold transition-all duration-300 border border-slate-600 rounded-xl hover:bg-slate-800'>
+                            <button className='px-8 py-4 text-lg font-semibold transition-all duration-300 border border-neutral-600 rounded-xl hover:bg-neutral-800'>
                                 <i className='mr-2 ri-play-fill'></i>
                                 Watch Demo
                             </button>
@@ -222,9 +222,9 @@ const Home = () => {
                         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                             <button
                                 onClick={() => setIsModalOpen(true)}
-                                className="group p-8 border-2 border-dashed border-slate-600 rounded-2xl hover:border-blue-500 transition-all duration-300 flex flex-col items-center justify-center min-h-[200px] hover:bg-slate-800/50"
+                                className="group p-8 border-2 border-dashed border-neutral-600 rounded-2xl hover:border-blue-500 transition-all duration-300 flex flex-col items-center justify-center min-h-[200px] hover:bg-neutral-800/50"
                             >
-                                <div className='flex items-center justify-center w-16 h-16 mb-4 transition-transform rounded-full bg-gradient-to-r from-blue-600 to-purple-600 group-hover:scale-110'>
+                                <div className='flex items-center justify-center w-16 h-16 mb-4 transition-transform rounded-full bg-gradient-to-r from-neutral-600 to-neutral-500 group-hover:scale-110'>
                                     <i className="text-2xl text-white ri-add-fill"></i>
                                 </div>
                                 <h3 className='text-lg font-semibold text-gray-300 group-hover:text-white'>New Project</h3>
@@ -235,13 +235,13 @@ const Home = () => {
                                 <div 
                                     key={proj._id}
                                     onClick={() => navigate(`/project`, { state: { project: proj } })}
-                                    className="p-6 transition-all duration-300 transform border cursor-pointer group bg-slate-800/50 rounded-2xl hover:bg-slate-800 border-slate-700 hover:border-slate-600 hover:shadow-xl hover:scale-105"
+                                    className="p-6 transition-all duration-300 transform border cursor-pointer group bg-neutral-800/50 rounded-2xl hover:bg-neutral-800 border-neutral-700 hover:border-neutral-600 hover:shadow-xl hover:scale-105"
                                 >
                                     <div className='flex items-center justify-between mb-4'>
-                                        <div className='flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600'>
+                                        <div className='flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-r from-neutral-700 to-neutral-600'>
                                             <i className='text-white ri-folder-fill'></i>
                                         </div>
-                                        <span className='px-2 py-1 text-xs text-gray-400 rounded bg-slate-700'>Active</span>
+                                        <span className='px-2 py-1 text-xs text-gray-400 rounded bg-neutral-700'>Active</span>
                                     </div>
                                     <h3 className="mb-3 text-lg font-semibold text-white transition-colors group-hover:text-blue-400">
                                         {proj.name}
@@ -266,7 +266,7 @@ const Home = () => {
                 <section className='px-4 pt-32 pb-20'>
                     <div className='mx-auto max-w-7xl'>
                         <div className='mb-20 text-center'>
-                            <h2 className='mb-6 text-5xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text'>
+                            <h2 className='mb-6 text-5xl font-bold text-transparent bg-gradient-to-r from-neutral-200 via-white to-neutral-500 bg-clip-text'>
                                 Powerful Features
                             </h2>
                             <p className='max-w-3xl mx-auto text-xl text-gray-400'>
@@ -275,8 +275,8 @@ const Home = () => {
                         </div>
                         <div className='grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3'>
                             {features.map((feature, index) => (
-                                <div key={index} className='p-8 transition-all duration-300 border bg-slate-800/50 rounded-2xl border-slate-700 hover:border-slate-600 hover:shadow-xl group'>
-                                    <div className='flex items-center justify-center w-16 h-16 mb-6 transition-transform rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 group-hover:scale-110'>
+                                <div key={index} className='p-8 transition-all duration-300 border bg-neutral-800/50 rounded-2xl border-neutral-700 hover:border-neutral-600 hover:shadow-xl group'>
+                                    <div className='flex items-center justify-center w-16 h-16 mb-6 transition-transform rounded-xl bg-gradient-to-r from-neutral-600 to-neutral-500 group-hover:scale-110'>
                                         <i className={`${feature.icon} text-2xl text-white`}></i>
                                     </div>
                                     <h3 className='mb-4 text-xl font-semibold text-white'>{feature.title}</h3>
@@ -293,7 +293,7 @@ const Home = () => {
                 <section className='px-4 pt-32 pb-20'>
                     <div className='mx-auto max-w-7xl'>
                         <div className='mb-20 text-center'>
-                            <h2 className='mb-6 text-5xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text'>
+                            <h2 className='mb-6 text-5xl font-bold text-transparent bg-gradient-to-r from-neutral-200 via-white to-neutral-500 bg-clip-text'>
                                 How It Works
                             </h2>
                             <p className='max-w-3xl mx-auto text-xl text-gray-400'>
@@ -305,10 +305,10 @@ const Home = () => {
                             {steps.map((step, index) => (
                                 <div key={index} className={`relative flex items-center mb-16 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
                                     <div className={`w-1/2 ${index % 2 === 0 ? 'pr-12' : 'pl-12'}`}>
-                                        <div className='p-8 border bg-slate-800/50 rounded-2xl border-slate-700'>
+                                        <div className='p-8 border bg-neutral-800/50 rounded-2xl border-neutral-700'>
                                             <div className='flex items-center gap-4 mb-4'>
                                                 <span className='text-3xl font-bold text-blue-400'>{step.step}</span>
-                                                <i className={`${step.icon} text-2xl text-purple-400`}></i>
+                                                <i className={`${step.icon} text-2xl text-neutral-400`}></i>
                                             </div>
                                             <h3 className='mb-4 text-2xl font-semibold text-white'>{step.title}</h3>
                                             <p className='text-lg leading-relaxed text-gray-400'>{step.description}</p>
@@ -327,7 +327,7 @@ const Home = () => {
                 <section className='px-4 pt-32 pb-20'>
                     <div className='max-w-4xl mx-auto'>
                         <div className='mb-20 text-center'>
-                            <h2 className='mb-6 text-5xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text'>
+                            <h2 className='mb-6 text-5xl font-bold text-transparent bg-gradient-to-r from-neutral-200 via-white to-neutral-500 bg-clip-text'>
                                 Frequently Asked Questions
                             </h2>
                             <p className='text-xl text-gray-400'>
@@ -336,10 +336,10 @@ const Home = () => {
                         </div>
                         <div className='space-y-4'>
                             {faqs.map((faq, index) => (
-                                <div key={index} className='overflow-hidden border bg-slate-800/50 rounded-2xl border-slate-700'>
+                                <div key={index} className='overflow-hidden border bg-neutral-800/50 rounded-2xl border-neutral-700'>
                                     <button
                                         onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
-                                        className='flex items-center justify-between w-full p-6 text-left transition-colors hover:bg-slate-800'
+                                        className='flex items-center justify-between w-full p-6 text-left transition-colors hover:bg-neutral-800'
                                     >
                                         <h3 className='text-lg font-semibold text-white'>{faq.question}</h3>
                                         <i className={`ri-arrow-down-s-line text-xl text-gray-400 transition-transform ${openFAQ === index ? 'rotate-180' : ''}`}></i>
@@ -357,7 +357,7 @@ const Home = () => {
             )}
 
             {/* Footer */}
-            <footer className='px-4 py-12 border-t bg-slate-800/50 border-slate-700'>
+            <footer className='px-4 py-12 border-t bg-neutral-800/50 border-neutral-700'>
                 <div className='mx-auto text-center max-w-7xl'>
                     <div className='flex items-center justify-center gap-2 mb-4'>
                         <div className='flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600'>

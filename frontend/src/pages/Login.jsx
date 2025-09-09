@@ -1,14 +1,16 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from '../config/axios';
-import { UserContext } from '../context/user.context';
+import { useAuth } from '../context/user.context';
 import { gsap } from 'gsap';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { setUser } = useContext(UserContext);
+  const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
   // Refs for GSAP animations
   const leftPanelRef = useRef(null);
@@ -103,14 +105,13 @@ const Login = () => {
           y: -20,
           duration: 0.5,
           onComplete: () => {
-            localStorage.setItem('token', res.data.token);
-            setUser(res.data.user);
-            navigate('/');
+            login(res.data.token, res.data.user);
+            navigate(from, { replace: true });
           }
         });
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.error('Login error:', err.response?.data || err.message);
         // Error animation
         gsap.to(formRef.current, {
           x: [0, 10, -10, 10, -10, 0],

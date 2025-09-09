@@ -88,3 +88,22 @@ export const getAllUsersController = async (req, res) => {
         res.status(400).json({error: err.message})
     }
 }
+
+export const getCurrentUserController = async (req, res) => {
+    try {
+        // The user ID is now included in the JWT token
+        const user = await userModel.findById(req.user._id).select('-password');
+        
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+        
+        res.status(200).json(user);
+    } catch (err) {
+        console.error('Error getting current user:', err);
+        res.status(500).json({ 
+            error: 'Server error while fetching user data',
+            details: err.message
+        });
+    }
+};
