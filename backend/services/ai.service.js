@@ -104,8 +104,20 @@ const model = genAI.getGenerativeModel({
 });
 
 export const generateResult = async (prompt) => {
-
-    const result = await model.generateContent(prompt);
-
-    return result.response.text()
+    try {
+        const result = await model.generateContent(prompt);
+        return result.response.text();
+    } catch (error) {
+        console.error('Google AI API Error:', error);
+        
+        if (error.status === 503) {
+            throw new Error('AI service is temporarily overloaded. Please try again later.');
+        } else if (error.status === 429) {
+            throw new Error('Rate limit exceeded. Please wait before trying again.');
+        } else if (error.status === 401) {
+            throw new Error('Invalid API key. Please check your configuration.');
+        } else {
+            throw new Error(`AI service error: ${error.message || 'Unknown error'}`);
+        }
+    }
 }
